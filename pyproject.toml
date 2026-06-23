@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "translator_from_transformer"
+version = "1.0" 
+description = "Model that build a Transformer from Scratch using PyTorch. The usage of this transformer is to build a translator on top of the transformer built."
+requires-python = ">=3.12,<3.13" 
+authors=[{name= "OULD MAAMAR Rayan", email ="rayan.ouldmaamar@gmail.com"}]
+dependencies = [
+    "datasets>=5.0.0",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.1",
+    "tokenizers>=0.23.1",
+    "torch>=1.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+
