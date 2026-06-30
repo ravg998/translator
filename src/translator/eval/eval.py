@@ -26,7 +26,7 @@ def eval(language_src: str,
          n_encoder_layer:int, 
          n_decoder_layer:int, 
          sentence_to_translate: str
-         ) -> None: 
+         ) -> str: 
     weight_config_path: Path = settings.data_path.weight / f"{language_src}_to_{language_tgt}.pt"
     weight = torch.load(weight_config_path, 
                         map_location = setup_device(), 
@@ -62,7 +62,7 @@ def eval(language_src: str,
     mask_input = torch.ones_like(encoder_src)
     
     eos_id_tgt = token_tgt.token_to_id(settings.tokenizer_cfg.eos)
-    
+    translation:str = ""
     while decoder[0, -1].item()!= eos_id_tgt: 
         mask_decoder = build_mask_decoder(decoder.shape[1])
         
@@ -77,8 +77,9 @@ def eval(language_src: str,
                                          dtype=torch.int64).unsqueeze(0)
                             ], dim = 1)
         
-        print(token_tgt.decode([next_item]), end =" ")
-    print("\n")
+        translation = f"{translation} {token_tgt.decode([next_item])}"
+        
+    return translation 
     
     
     

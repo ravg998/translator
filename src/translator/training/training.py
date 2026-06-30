@@ -28,7 +28,7 @@ def training(language_src: str,
                                    save_path = settings.data_path.data_source
                                    ).get_data()[:1_0]
     tqdm.write(str(data_source))
-    raise ValueError
+
     token_src: Tokenizer = TokenLoad(data=data_source, 
                                      language=language_src).get_token(force_load = True)
     
@@ -86,7 +86,7 @@ def training(language_src: str,
             loss.backward()
             optimizer.step()
             
-            tqdm.write(f"Loss: {loss.item(): ,.5f}")
+        tqdm.write(f"Loss: {loss.item(): ,.5f}")
     
             
         logger.info(f"Epoch: {epoch +1:,.0f}/{n_epochs:,.0f} ({epoch/n_epochs:,.0%}) | Loss: {loss.item():,.5f}")
