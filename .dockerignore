@@ -1,0 +1,18 @@
+log/
+
+# DATA
+data/
+
+# PYTHON 
+/.pytest_cache/*
+/.venv/*
+**/__pycache__/
+**/*.pyc
+*/translator_from_transformer.egg-info/ 
+
+# GIT 
+.git/ 
+.gitignore 
+.dockerignore
+Dockerfile
+docker-compose.yml

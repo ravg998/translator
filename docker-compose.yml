@@ -1,0 +1,11 @@
+services:
+  translator:
+    build: . 
+    image: translator
+
+    volumes:
+      - data:/app/data
+    
+
+volumes: 
+  data:
