@@ -11,11 +11,25 @@ pipeline {
 
     environment { 
         IMAGE="ghcr.io/ravg998/translator"
+        BRANCH_TO_PUSH="origin/feature_ghcd"
+        
     }
     stages {
         stage("Build docker"){ 
             steps{
                 sh "docker build ${params.NO_CACHE ? '--no-cache' : ''} -t translator ."
+            }
+        }
+        
+        stage("ECHO"){
+            steps{
+                script{
+                    def ismainbranch =  (env.GIT_BRANCH) 
+                    def math_curr_branch = (env.GIT_BRANCH==env.BRANCH_TO_PUSH)
+                    
+                    echo "is main branch: ${ismainbranch} - ${math_curr_branch}"
+                    
+                }
             }
         }
 
@@ -27,7 +41,7 @@ pipeline {
         
         stage("Push Image"){ 
             when{
-                expression { env.GIT_BRANCH == 'origin/main' || env.GIT_BRANCH == 'main' }
+                expression { env.GIT_BRANCH == env.BRANCH_TO_PUSH}
             }
             steps{
                 withCredentials([usernamePassword(
