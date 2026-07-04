@@ -26,7 +26,9 @@ pipeline {
         }
         
         stage("Push Image"){ 
-            
+            when{
+                expression { env.GIT_BRANCH == 'origin/main' || env.GIT_BRANCH == 'main' }
+            }
             steps{
                 withCredentials([usernamePassword(
                     credentialsId: "git_cred", 
