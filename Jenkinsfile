@@ -20,18 +20,6 @@ pipeline {
                 sh "docker build ${params.NO_CACHE ? '--no-cache' : ''} -t translator ."
             }
         }
-        
-        stage("ECHO"){
-            steps{
-                script{
-                    def ismainbranch =  (env.GIT_BRANCH) 
-                    def math_curr_branch = (env.GIT_BRANCH==env.BRANCH_TO_PUSH)
-                    
-                    echo "is main branch: ${ismainbranch} - ${math_curr_branch}"
-                    
-                }
-            }
-        }
 
         stage("Run Translator Tests"){
             steps{
