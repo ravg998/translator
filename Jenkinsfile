@@ -9,7 +9,7 @@ pipeline {
 
         stage("Run Translator Tests"){
             steps{
-                sh "docker run -rm translator uv run pytest"
+                sh "docker run --rm translator uv run pytest"
             }
         }
     }
