@@ -1,7 +1,7 @@
 FROM python:3.12-slim 
 
 
-ENV PYTHONBUFERRED=1 
+ENV PYTHONBUFFERED=1 
 
 # PACKAGES 
 RUN apt-get update \
