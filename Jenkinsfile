@@ -27,9 +27,8 @@ pipeline {
         
         stage("Push Image"){ 
             when{
-                branch = "main"
+                branch "main"
             }
-
             steps{
                 withCredentials([usernamePassword(
                     credentialsId: "git_cred", 
@@ -44,9 +43,6 @@ pipeline {
                     '''
                 }
             }
-
-            
-
         }      
     }
 
