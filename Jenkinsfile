@@ -11,7 +11,7 @@ pipeline {
 
     environment { 
         IMAGE="ghcr.io/ravg998/translator"
-        BRANCH_TO_PUSH="origin/feature_ghcd"
+        BRANCH_TO_PUSH="origin/main"
         
     }
     stages {
