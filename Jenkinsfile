@@ -26,9 +26,7 @@ pipeline {
         }
         
         stage("Push Image"){ 
-            when{
-                branch "feature_ghcd"
-            }
+            
             steps{
                 withCredentials([usernamePassword(
                     credentialsId: "git_cred", 
@@ -44,13 +42,5 @@ pipeline {
                 }
             }
         }      
-    }
-
-
-
-    post {
-        always{
-            sh "docker image prune -f"
-        }
     }
 }
