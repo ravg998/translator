@@ -8,6 +8,12 @@ pipeline {
             description: "Build Docker without cache is set to True (slower)"
         )
     }
+
+    environment { 
+        IMAGE="ghcr.io/ravg998/translator"
+        BRANCH_TO_PUSH="origin/main"
+        
+    }
     stages {
         stage("Build docker"){ 
             steps{
@@ -20,11 +26,25 @@ pipeline {
                 sh "docker run --rm translator uv run -m pytest"
             }
         }
-    }
-
-    post {
-        always {
-            sh "docker image prune -f"
-        }
+        
+        stage("Push Image"){ 
+            when{
+                expression { env.GIT_BRANCH == env.BRANCH_TO_PUSH}
+            }
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId: "git_cred", 
+                    usernameVariable: "GHCR_USER", 
+                    passwordVariable: "GHCR_PWD"
+                )]) { 
+                    sh ''' 
+                    echo "$GHCR_PWD" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+                    docker tag translator ${IMAGE}:latest
+                    docker push ${IMAGE}:latest
+                    docker logout ghcr.io
+                    '''
+                }
+            }
+        }      
     }
 }
