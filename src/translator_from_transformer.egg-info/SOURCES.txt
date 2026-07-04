@@ -13,6 +13,8 @@ src/translator/data/__init__.py
 src/translator/data/dataset.py
 src/translator/data/extract_data.py
 src/translator/data/tokenizer.py
+src/translator/eval/__init__.py
+src/translator/eval/eval.py
 src/translator/model/__init__.py
 src/translator/model/attention.py
 src/translator/model/decoder.py
@@ -24,6 +26,7 @@ src/translator/model/transformer.py
 src/translator/training/__init__.py
 src/translator/training/training.py
 src/translator/utils/__init__.py
+src/translator/utils/device.py
 src/translator/utils/logger.py
 src/translator_from_transformer.egg-info/PKG-INFO
 src/translator_from_transformer.egg-info/SOURCES.txt
