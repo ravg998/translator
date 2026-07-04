@@ -27,7 +27,7 @@ pipeline {
         
         stage("Push Image"){ 
             when{
-                branch "main"
+                branch "feature_ghcd"
             }
             steps{
                 withCredentials([usernamePassword(
