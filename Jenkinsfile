@@ -3,7 +3,7 @@ pipeline {
 
     parameters{
         booleanParam(
-            name: 'NO_CACHE'
+            name: 'NO_CACHE',
             defaultValue: false, 
             description: "Build Docker without cache is set to True (slower)"
         )
