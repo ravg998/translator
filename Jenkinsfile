@@ -17,13 +17,13 @@ pipeline {
     stages {
         stage("Build docker"){ 
             steps{
-                sh "docker build ${params.NO_CACHE ? '--no-cache' : ''} --platform linux/amd64 -t translator ."
+                sh "docker build ${params.NO_CACHE ? '--no-cache' : ''} -t translator:latest ."
             }
         }
 
         stage("Run Translator Tests"){
             steps{
-                sh "docker run --rm --platform linux/amd64 translator uv run -m pytest"
+                sh "docker run --rm --platform linux/amd64 translator:latest uv run -m pytest"
             }
         }
         
