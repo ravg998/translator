@@ -23,7 +23,7 @@ pipeline {
 
         stage("Run Translator Tests"){
             steps{
-                sh "docker run --rm --platform linux/amd64 translator:latest uv run -m pytest"
+                sh "docker run --rm translator:latest uv run -m pytest"
             }
         }
         
@@ -45,6 +45,23 @@ pipeline {
                     '''
                 }
             }
-        }      
+        }
+        stage("Deploy to VM") {
+            when {
+                expression { env.GIT_BRANCH == env.BRANCH_TO_PUSH}
+            }
+            steps {
+                sshagent(credentials: ['gcp-ssh-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no jenkins-deploy@34.13.251.27 "
+                            docker pull ${IMAGE}:latest &&
+                            docker stop translator || true &&
+                            docker rm translator || true &&
+                            docker run -d --name translator ${IMAGE}:latest
+                        "
+                    '''
+                }
+            }
+        }
     }
 }
