@@ -53,11 +53,15 @@ pipeline {
             steps {
                 sshagent(credentials: ['gcp-ssh-key']) {
                     sh '''
+                        scp -o StrictHostKeyChecking=no  docker-compose.yml docker-compose.prod.yml   jenkins-deploy@34.13.251.27:~/translator-deploy/
+                            
                         ssh -o StrictHostKeyChecking=no jenkins-deploy@34.13.251.27 "
-                            docker pull ${IMAGE}:latest &&
+                            cd ~/translator-deploy/ &&
                             docker stop translator || true &&
                             docker rm translator || true &&
-                            docker run -d --name translator ${IMAGE}:latest
+                            docker rmi env.IMAGE:latest || true &&
+                            docker image prune -f && 
+                            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
                         "
                     '''
                 }
