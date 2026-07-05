@@ -10,7 +10,8 @@ log/
 /.venv/*
 **/__pycache__/
 **/*.pyc
-*/translator_from_transformer.egg-info/ 
+**/translator_from_transformer.egg-info/*
+
 
 # GIT 
 .git/ 

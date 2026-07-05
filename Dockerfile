@@ -1,6 +1,6 @@
 FROM python:3.12-slim 
 
-
+ARG HUG_USER="hugfacegva98/translator"
 ENV PYTHONBUFFERED=1 
 
 # PACKAGES 
@@ -21,7 +21,6 @@ RUN uv sync --frozen --no-install-project
 
 COPY . .
 RUN uv sync --frozen 
+RUN uv run hf download ${HUG_USER} --local-dir /app/data
 
 CMD ["tail", "-f", "/dev/null"]
-
-
