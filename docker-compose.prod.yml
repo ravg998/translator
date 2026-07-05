@@ -1,0 +1,3 @@
+services:
+  translator:
+    image: ghcr.io/ravg998/translator:latest

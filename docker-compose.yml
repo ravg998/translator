@@ -1,7 +1,6 @@
 services:
   translator:
     build: . 
-    image: translator
     container_name: translator
 
     volumes:
