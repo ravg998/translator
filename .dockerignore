@@ -1,7 +1,9 @@
 log/
 
 # DATA
-/data
+/data/*
+!/data/weight
+!/data/token
 
 # PYTHON 
 /.pytest_cache/*
