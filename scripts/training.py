@@ -14,6 +14,7 @@ def main():
     n_head: int= settings.model.n_head 
     n_encoder_layer: int = settings.model.n_encoder_layer
     n_decoder_layer: int = settings.model.n_decoder_layer 
+    dropout: float = settings.model.training.dropout
     
     
     training(language_src=language_src, 
@@ -25,7 +26,8 @@ def main():
              dd_df=dd_df,
              n_head = n_head, 
              n_encoder_layer=n_encoder_layer, 
-             n_decoder_layer=n_decoder_layer
+             n_decoder_layer=n_decoder_layer, 
+             dropout= dropout
              )
     
 if __name__=="__main__":

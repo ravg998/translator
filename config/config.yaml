@@ -20,6 +20,7 @@ model:
     lr: 0.0001
     epochs: 20
     batch_size: 8
+    dropout: 0.1
 
   d_model: 64
   n_head: 8

@@ -19,15 +19,15 @@ def training(language_src: str,
              dd_df: int, 
              n_head: int, 
              n_encoder_layer: int,
-             n_decoder_layer: int
+             n_decoder_layer: int, 
+             dropout: float
              ) -> None: 
     # DATA
     data_source: dict = DataSource(language_src=language_src, 
                                    language_tgt=language_tgt, 
                                    data_source = settings.data_text.data_source, 
                                    save_path = settings.data_path.data_source
-                                   ).get_data()[:1_0]
-    tqdm.write(str(data_source))
+                                   ).get_data()
 
     token_src: Tokenizer = TokenLoad(data=data_source, 
                                      language=language_src).get_token(force_load = True)
@@ -60,7 +60,8 @@ def training(language_src: str,
                                          n_encoder_layer=n_encoder_layer, 
                                          n_decoder_layer=n_decoder_layer,
                                          vocab_size_src=token_src.get_vocab_size(),
-                                         vocab_size_tgt=token_tgt.get_vocab_size()
+                                         vocab_size_tgt=token_tgt.get_vocab_size(), 
+                                         dropout = dropout
                                          )
     model.to(device)
     criterion = nn.CrossEntropyLoss(ignore_index = token_tgt.token_to_id(settings.tokenizer_cfg.padding))

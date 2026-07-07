@@ -17,7 +17,8 @@ class MultiHeadAttention(nn.Module):
     def __init__(self, 
                  n_head: int, 
                  d_model: int, 
-                 seq_len: int) -> None: 
+                 seq_len: int,
+                 dropout: float) -> None: 
         super().__init__()
         
         self._n_head: int = n_head
@@ -30,6 +31,7 @@ class MultiHeadAttention(nn.Module):
         self._q: nn.Linear = nn.Linear(self._d_model, self._d_model)
         self._k: nn.Linear = nn.Linear(self._d_model, self._d_model)
         self._v: nn.Linear = nn.Linear(self._d_model, self._d_model)
+        self._dropout: nn.Dropout= nn.Dropout(dropout)
         self._output: nn.Linear = nn.Linear(self._d_model, self._d_model)
         
 
@@ -82,4 +84,4 @@ class MultiHeadAttention(nn.Module):
                                 self._d_model)
         
         
-        return self._output(output) 
+        return self._dropout(self._output(output))

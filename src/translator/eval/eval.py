@@ -41,7 +41,8 @@ def eval(language_src: str,
                         n_encoder_layer=n_encoder_layer, 
                         n_decoder_layer=n_decoder_layer,
                         vocab_size_src=token_src.get_vocab_size(),
-                        vocab_size_tgt=token_tgt.get_vocab_size()
+                        vocab_size_tgt=token_tgt.get_vocab_size(), 
+                        dropout = 0 # FORCE DROPOUT HERE AS IT'S EVAL. SETTING MODEL TO EVAL MODE WILL OFFSET IT ANYWAY
                         )
     model.load_state_dict(weight)
     model.to(setup_device())

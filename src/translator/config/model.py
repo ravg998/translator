@@ -9,6 +9,9 @@ class Training(BaseModel):
     batch_size: int = Field(description="Size of the Batch", 
                             ge=1)
     
+    dropout: float = Field(description="Dropout Value for Training.", 
+                           ge=0, le=1)
+    
 
 class Model(BaseModel):
     model_config = ConfigDict(frozen=True)

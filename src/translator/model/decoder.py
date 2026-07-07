@@ -15,19 +15,24 @@ class DecoderBlock(nn.Module):
                  seq_len: int, 
                  n_head: int,
                  d_model: int,
-                    dd_df: int): 
+                    dd_df: int,
+                    dropout: float): 
         super().__init__()
         self._multi_head_masked: MultiHeadAttention = MultiHeadAttention(n_head=n_head, 
                                                                          seq_len= seq_len, 
-                                                                         d_model=d_model)
+                                                                         d_model=d_model, 
+                                                                         dropout = dropout)
         self._multi_head: MultiHeadAttention = MultiHeadAttention(n_head=n_head, 
                                                                          seq_len= seq_len, 
-                                                                         d_model=d_model)
+                                                                         d_model=d_model, 
+                                                                         dropout= dropout)
         self._feed_forward: FeedForward = FeedForward(d_model = d_model, 
-                                                      dd_df= dd_df)
+                                                      dd_df= dd_df,
+                                                      dropout = dropout)
         self._norm1: nn.LayerNorm = nn.LayerNorm(d_model)
         self._norm2: nn.LayerNorm = nn.LayerNorm(d_model)
         self._norm3: nn.LayerNorm = nn.LayerNorm(d_model)
+        self._dropout: nn.Dropout = nn.Dropout(dropout)
         
     def forward(self, 
                 q: torch.Tensor,
@@ -35,8 +40,8 @@ class DecoderBlock(nn.Module):
                 mask_1: torch.Tensor, 
                 mask_2: torch.Tensor) -> torch.Tensor: 
         q = self._norm1(q + self._multi_head_masked(q=q, k=q, v=q, mask=mask_1))
-        q = self._norm2(q + self._multi_head(q=q, k=kv, v=kv, mask=mask_2))
-        q = self._norm3(q + self._feed_forward(q))
+        q = self._norm2(q + self._dropout(self._multi_head(q=q, k=kv, v=kv, mask=mask_2)))
+        q = self._norm3(q + self._dropout(self._feed_forward(q)))
         return q
     
     
@@ -46,12 +51,14 @@ class Decoder(nn.Module):
                  n_head: int,
                  d_model: int,
                  dd_df: int,
-                 n_decoder_layer: int): 
+                 n_decoder_layer: int, 
+                 dropout: float): 
         super().__init__()
         self._decoders: nn.ModuleList= nn.ModuleList([DecoderBlock(n_head=n_head, 
                                                                          seq_len= seq_len, 
                                                                          d_model=d_model, 
-                                                                         dd_df=dd_df) 
+                                                                         dd_df=dd_df, 
+                                                                         dropout = dropout) 
                                                       for _ in range(n_decoder_layer)
                                                       ])
         

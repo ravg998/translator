@@ -14,18 +14,21 @@ class Transformer(nn.Module):
                  n_encoder_layer: int, 
                  n_decoder_layer:int,
                  vocab_size_src: int,
-                 vocab_size_tgt: int): 
+                 vocab_size_tgt: int, 
+                 dropout: float): 
         super().__init__()
         self._encoder: Encoder = Encoder(n_encoder_layer=n_encoder_layer, 
                                          d_model = d_model, 
                                          n_head = n_head, 
                                          seq_len=seq_len, 
-                                         dd_df=dd_df)
+                                         dd_df=dd_df, 
+                                         dropout=dropout)
         self._decoder: Decoder = Decoder(n_decoder_layer=n_decoder_layer, 
                                          d_model = d_model, 
                                          n_head = n_head, 
                                          dd_df=dd_df,
-                                         seq_len=seq_len) 
+                                         seq_len=seq_len, 
+                                         dropout=dropout) 
         self._positional_embedding_src: PositionEmbedding = PositionEmbedding(vocab_size_src,
                                                                               d_model=d_model)
         self._positional_embedding_tgt: PositionEmbedding = PositionEmbedding(vocab_size_tgt, 
@@ -35,7 +38,8 @@ class Transformer(nn.Module):
                                                   d_model=d_model
                                                   )
         self._output_layer: Output = Output(d_model = d_model,
-                                            vocab_size_tgt=vocab_size_tgt)
+                                            vocab_size_tgt=vocab_size_tgt, 
+                                         dropout=dropout)
         
         
     def forward(self, 
