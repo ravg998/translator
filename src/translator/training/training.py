@@ -10,6 +10,20 @@ from tqdm import tqdm
 import logging 
 
 logger = logging.getLogger(__name__)
+
+def filter_sentence_too_long(data: dict, 
+                             max_seq_len: int,
+                             language_src: str, 
+                             language_tgt: str) -> dict: 
+    new_data: dict = {"translation":[]}
+    for sentences in data["translation"]: 
+        if len(sentences[language_src].split(" "))<=max_seq_len and len(sentences[language_tgt].split(" "))<=max_seq_len:
+            new_data["translation"].append({language_src: sentences[language_src], 
+                                            language_tgt: sentences[language_tgt]})
+            
+    return new_data
+
+
 def training(language_src: str, 
              language_tgt: str, 
              seq_len: str, 
@@ -28,6 +42,12 @@ def training(language_src: str,
                                    data_source = settings.data_text.data_source, 
                                    save_path = settings.data_path.data_source
                                    ).get_data()
+    data_source = filter_sentence_too_long(data_source, 
+                                           max_seq_len=seq_len, 
+                                           language_src=language_src, 
+                                           language_tgt=language_tgt
+                                           )
+    
 
     token_src: Tokenizer = TokenLoad(data=data_source, 
                                      language=language_src).get_token(force_load = True)

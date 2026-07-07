@@ -5,7 +5,8 @@ import torch
 parameters: list[dict[str, int]] = [{"n_head": 8, 
                                      "d_model": 64, 
                                      "seq_len": 352, 
-                                     "batch_size": 3}] # N_HEAD, D_MODEL, SEQ_LEN
+                                     "batch_size": 3, 
+                                     "dropout": 0.1}] # N_HEAD, D_MODEL, SEQ_LEN
 
 
 @pytest.fixture(params = parameters)
@@ -14,7 +15,8 @@ def multi_head_attention(request: pytest.fixture) -> MultiHeadAttention:
     
     return MultiHeadAttention(n_head=param["n_head"], 
                               d_model=param["d_model"], 
-                              seq_len=param["seq_len"]
+                              seq_len=param["seq_len"], 
+                              dropout = param["dropout"]
                               )
     
 @pytest.fixture(params = parameters)

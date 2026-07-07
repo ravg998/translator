@@ -5,7 +5,8 @@ import pytest
 parameters: list[dict[str, int]] = [{"batch_size": 8,
                                      "seq_len": 352,
                                      "d_model": 64, 
-                                     "vocab_size_tgt": 10_000
+                                     "vocab_size_tgt": 10_000, 
+                                     "dropout": 0.1
                                     }
                                     ]
 
@@ -15,7 +16,8 @@ def output(request: pytest.fixture) -> Output:
     param= request.param 
     
     return Output(d_model=param["d_model"], 
-                  vocab_size_tgt=param["vocab_size_tgt"])
+                  vocab_size_tgt=param["vocab_size_tgt"], 
+                  dropout=param["dropout"])
     
     
 @pytest.fixture(params=parameters)

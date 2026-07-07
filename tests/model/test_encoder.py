@@ -7,7 +7,8 @@ parameters: list[dict[str, int]] = [
      "n_head": 8, 
      "d_model": 64, 
      "batch_size": 8, 
-     "dd_df": 2048}
+     "dd_df": 2048, 
+     "dropout": 0.1}
 ]
 
 
@@ -17,7 +18,8 @@ def encoder_block(request: pytest.fixture) -> EncoderBlock:
     return EncoderBlock(seq_len = param["seq_len"], 
                         n_head= param["n_head"], 
                         d_model= param["d_model"], 
-                        dd_df=param["dd_df"])
+                        dd_df=param["dd_df"], 
+                        dropout=param["dropout"])
     
 @pytest.fixture(params=parameters)
 def x_input(request: pytest.fixture) -> torch.Tensor:

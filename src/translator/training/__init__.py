@@ -1,1 +1,1 @@
-from .training import training
+from .training import training, filter_sentence_too_long
