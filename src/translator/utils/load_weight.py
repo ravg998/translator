@@ -18,7 +18,7 @@ def load_model(weight_file_name: str) -> Transformer:
 def load_languages(weight_file_name: str) -> dict[str, str]: 
     weight_file: Path = settings.data_path.weight / weight_file_name
     weight = torch.load(weight_file)
-    language_src: str= weight["languge_src"]
+    language_src: str= weight["language_src"]
     language_tgt: str= weight["language_tgt"]
     
     return {"language_src": language_src, 
