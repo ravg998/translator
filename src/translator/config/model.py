@@ -11,6 +11,7 @@ class Training(BaseModel):
     
     dropout: float = Field(description="Dropout Value for Training.", 
                            ge=0, le=1)
+    load_prev_weight: bool = Field(description="Boolean if wants to continue training from previous run. ")
     
 
 class Model(BaseModel):
@@ -35,6 +36,7 @@ class Model(BaseModel):
     n_head: int = Field(description = "Number of Head for the multi head attention", 
                         ge=1)
     
+    save_model_name: str = Field(description="Name of the weigh model to be saved.")
     
     @model_validator(mode="after")
     def _check_d_model_mult_n_head(self) -> None: 

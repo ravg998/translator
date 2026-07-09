@@ -15,6 +15,8 @@ def main():
     n_encoder_layer: int = settings.model.n_encoder_layer
     n_decoder_layer: int = settings.model.n_decoder_layer 
     dropout: float = settings.model.training.dropout
+    save_weight_name: str = settings.model.save_model_name
+    load_prev_weight: bool = settings.model.training.load_prev_weight
     
     
     training(language_src=language_src, 
@@ -27,7 +29,9 @@ def main():
              n_head = n_head, 
              n_encoder_layer=n_encoder_layer, 
              n_decoder_layer=n_decoder_layer, 
-             dropout= dropout
+             dropout= dropout, 
+             save_weight_name=save_weight_name, 
+             load_prev_weight = load_prev_weight
              )
     
 if __name__=="__main__":
