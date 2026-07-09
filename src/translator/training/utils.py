@@ -31,7 +31,7 @@ def save_weight(save_name: str,
                 **hyperparameters): 
     model_states = {"hyperparameters": hyperparameters, 
                     "model": model.state_dict(), 
-                    "languge_src": language_src, 
+                    "language_src": language_src, 
                     "language_tgt": language_tgt,
                     "epoch": epoch,
                     "optimizer": optimizer.state_dict()

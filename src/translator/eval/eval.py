@@ -5,7 +5,7 @@ from tokenizers import Tokenizer
 from translator.utils import setup_device
 from translator.model import Transformer
 from pathlib import Path
-
+from translator.utils import load_model, load_languages
 
 def build_mask_decoder(size: int) -> torch.Tensor:
     """ 
@@ -17,35 +17,14 @@ def build_mask_decoder(size: int) -> torch.Tensor:
     return mask.unsqueeze(0)
 
 @torch.no_grad()
-def eval(language_src: str, 
-         language_tgt: str, 
-         d_model: int, 
-         n_head: int,
-         dd_df: int,
-         seq_len: int,
-         n_encoder_layer:int, 
-         n_decoder_layer:int, 
+def eval(weight_file: str, 
          sentence_to_translate: str
          ) -> str: 
-    weight_config_path: Path = settings.data_path.weight / f"{language_src}_to_{language_tgt}.pt"
-    weight = torch.load(weight_config_path, 
-                        map_location = setup_device(), 
-                        weights_only=True)
-    token_src: Tokenizer = TokenLoad(language=language_src).get_token()
-    token_tgt: Tokenizer = TokenLoad(language=language_tgt).get_token()
+    model = load_model(weight_file)
+    languages: dict[str, str]= load_languages(weight_file)
+    token_src: Tokenizer = TokenLoad(language=languages["language_src"]).get_token()
+    token_tgt: Tokenizer = TokenLoad(language=languages["language_tgt"]).get_token()
     
-    model = Transformer(d_model=d_model, 
-                        n_head =n_head,
-                        seq_len=seq_len, 
-                        dd_df = dd_df,
-                        n_encoder_layer=n_encoder_layer, 
-                        n_decoder_layer=n_decoder_layer,
-                        vocab_size_src=token_src.get_vocab_size(),
-                        vocab_size_tgt=token_tgt.get_vocab_size(), 
-                        dropout = 0 # FORCE DROPOUT HERE AS IT'S EVAL. SETTING MODEL TO EVAL MODE WILL OFFSET IT ANYWAY
-                        )
-    model.load_state_dict(weight)
-    model.to(setup_device())
     model.eval()
     encoder_src: torch.Tensor = torch.tensor(token_src.encode(sentence_to_translate).ids, 
                                              dtype= torch.int64)
