@@ -2,6 +2,10 @@ from tokenizers import Tokenizer
 from translator.model import Transformer
 from translator.config import settings 
 import torch 
+import logging 
+
+logger = logging.getLogger(__name__)
+
 
 def filter_sentence_too_long(data: dict, 
                              max_seq_len: int,
@@ -40,4 +44,6 @@ def save_weight(save_name: str,
     settings.data_path.weight.mkdir(parents = True, exist_ok=True)
     torch.save(model_states, 
                settings.data_path.weight / save_name)
+    
+    logger.info(f"Weight saved under {save_name} name:\n{hyperparameters}")
 

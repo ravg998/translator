@@ -1,6 +1,6 @@
 from translator.training import training 
 from translator.config import settings 
-
+import logging
 
 def main(): 
     language_src: str = settings.data_text.language_src 
@@ -17,7 +17,6 @@ def main():
     dropout: float = settings.model.training.dropout
     save_weight_name: str = settings.model.save_model_name
     load_prev_weight: bool = settings.model.training.load_prev_weight
-    
     
     training(language_src=language_src, 
              language_tgt=language_tgt, 

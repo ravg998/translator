@@ -3,7 +3,10 @@ from pathlib import Path
 from translator.config import settings 
 from translator.model import Transformer
 from .device import setup_device 
+import logging 
 
+
+logger = logging.getLogger(__name__)
 def load_model(weight_file_name: str) -> Transformer: 
     weight_file: Path = settings.data_path.weight / weight_file_name
     weight = torch.load(weight_file)
@@ -12,6 +15,7 @@ def load_model(weight_file_name: str) -> Transformer:
     model.load_state_dict(weight["model"])
     model.to(setup_device())
     
+    logger.info(f"{weight_file_name} Model loaded:\n{weight['hyperparameters']}")
     return model 
 
 

@@ -18,7 +18,7 @@ data_path:
 model:
   training:
     lr: 0.0001
-    epochs: 20
+    epochs: 40
     batch_size: 16
     dropout: 0.1
     load_prev_weight: True
